@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use base qw(Class::Accessor::Fast);
 use Carp::Assert;
-use LWP::Simple;
 use Net::DAAP::DMAP qw(:all);
 
 __PACKAGE__->mk_accessors(qw(ua kind id name aspectratio creationdate
@@ -11,21 +10,26 @@ imagefilename thumbnail_url hires_url));
 
 sub thumbnail {
   my $self = shift;
+
+  my $ua = $self->ua;
   my $url = $self->thumbnail_url;
-  return $self->decode(get($url));
+
+  return $self->decode($ua->get($url)->content);
 }
 
 sub hires {
   my $self = shift;
+
+  my $ua = $self->ua;
   my $url = $self->hires_url;
-  return $self->decode(get($url));
+
+  return $self->decode($ua->get($url)->content);
 }
 
 sub decode {
   my $self = shift;
   my $data  = shift;
   my $dmap = dmap_unpack($data);
-
 
   assert($dmap->[0]->[0] eq 'daap.databasesongs');
   foreach my $tuple (@{$dmap->[0]->[1]}) {
