@@ -1,4 +1,8 @@
 CHANGES file for Net::DPAP::Client
 
+0.24 Mon Jul 19 19:18:01 CEST 2004
+  - more documentation (as requested by Mark Fowler)
+  - added a test to check the Pod
+
 0.22 Mon Jul 12 14:54:28 IST 2004
   - first release

@@ -8,7 +8,7 @@ use Net::DPAP::Client::Image;
 use LWP::UserAgent;
 use URI;
 use base qw(Class::Accessor::Fast);
-our $VERSION = '0.22';
+our $VERSION = '0.24';
 
 __PACKAGE__->mk_accessors(qw(hostname port ua server databases_count
 item_name login_required dmap_protocol_version dpap_protocol_version
@@ -222,6 +222,10 @@ This allows you to browse shared albums, and download thumbnail and
 hires versions of shared photos.
 
 It currently doesn't support password-protected shares.
+
+=head1 SEE ALSO
+
+Net::DPAP::Client::Album, Net::DPAP::Client::Image.
 
 =head1 AUTHOR
 

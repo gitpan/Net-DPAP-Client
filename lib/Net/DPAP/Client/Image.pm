@@ -44,3 +44,68 @@ sub decode {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+Net::DPAP::Client::Image - Remote DPAP image
+
+=head1 DESCRIPTION
+
+This module represents a remote iPhoto shared image.
+
+=head1 METHODS
+
+=head2 aspectratio
+
+This returns the aspect ratio of the image.
+
+=head2 creationdate
+
+This returns the creation date of the image as a UNIX timestamp. 
+
+=head2 id 
+
+This returns the internal iPhoto ID for the image. You probably don't
+need to worry about this.
+
+=head2 imagefilename
+
+This returns the filename of the image.
+
+=head2 kind
+
+This returns the kind of file of the image. Currently an
+incomprehensible number.
+
+=head2 name
+
+This returns the name of the image.
+
+=head2 thumbnail_url
+
+This returns the URL of the image thumbnail.
+
+=head2 thumbnail 
+
+This returns the thumbnail binary.
+
+=head2 hires_url
+
+This returns the URL of the image hires.
+
+=head2 hires
+
+This returns the hires binary.
+
+=head1 AUTHOR
+
+Leon Brocard <acme@astray.com>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2004, Leon Brocard
+
+This module is free software; you can redistribute it or modify it under
+the same terms as Perl itself.

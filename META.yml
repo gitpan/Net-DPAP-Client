@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: Net-DPAP-Client
-version: 0.22
+version: 0.24
 author:
   - Leon Brocard <acme@astray.com>
 abstract: Connect to iPhoto shares (DPAP)
@@ -14,7 +14,7 @@ requires:
 provides:
   Net::DPAP::Client:
     file: lib/Net/DPAP/Client.pm
-    version: 0.22
+    version: 0.24
   Net::DPAP::Client::Album:
     file: lib/Net/DPAP/Client/Album.pm
   Net::DPAP::Client::Image:
