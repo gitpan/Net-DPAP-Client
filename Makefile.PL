@@ -2,16 +2,16 @@
 use ExtUtils::MakeMaker;
 WriteMakefile
 (
-          'PL_FILES' => {},
-          'INSTALLDIRS' => 'site',
           'NAME' => 'Net::DPAP::Client',
           'VERSION_FROM' => 'lib/Net/DPAP/Client.pm',
           'PREREQ_PM' => {
-                           'URI' => 0,
-                           'Carp::Assert' => 0,
+                           'Carp::Assert' => '0',
+                           'Class::Accessor::Fast' => '0',
+                           'LWP::Simple' => '0',
                            'Net::DAAP::DMAP' => '1.20',
-                           'LWP::Simple' => 0,
-                           'Class::Accessor::Fast' => 0
-                         }
+                           'URI' => '0'
+                         },
+          'INSTALLDIRS' => 'site',
+          'PL_FILES' => {}
         )
 ;

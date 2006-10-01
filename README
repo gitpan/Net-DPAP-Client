@@ -24,11 +24,26 @@ DESCRIPTION
 
     It currently doesn't support password-protected shares.
 
+METHODS
+  new
+    The constructor:
+
+      my $client = Net::DPAP::Client->new;
+      $client->hostname($hostname);
+
+  connect
+    Connect to the hostname:
+
+      my @albums = $client->connect;
+
+SEE ALSO
+    Net::DPAP::Client::Album, Net::DPAP::Client::Image.
+
 AUTHOR
     Leon Brocard <acme@astray.com>
 
 COPYRIGHT
-    Copyright (C) 2004, Leon Brocard
+    Copyright (C) 2004-6, Leon Brocard
 
     This module is free software; you can redistribute it or modify it under
     the same terms as Perl itself.

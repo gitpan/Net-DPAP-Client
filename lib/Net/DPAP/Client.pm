@@ -8,7 +8,7 @@ use Net::DPAP::Client::Image;
 use LWP::UserAgent;
 use URI;
 use base qw(Class::Accessor::Fast);
-our $VERSION = '0.25';
+our $VERSION = '0.26';
 
 __PACKAGE__->mk_accessors(qw(hostname port ua server databases_count
 item_name login_required dmap_protocol_version dpap_protocol_version
@@ -35,7 +35,7 @@ sub connect {
   my $self = shift;
 
   # Get server info
-  my $response =  $self->do_get("server-info");
+  my $response =  $self->_do_get("server-info");
   $self->server($response->header('DPAP-Server'));
   assert($response->header('Content-Type') eq
     'application/x-dmap-tagged');
@@ -54,7 +54,7 @@ sub connect {
   }
 
   # Login (get session id)
-  $response = $self->do_get("login");
+  $response = $self->_do_get("login");
   $dmap = dmap_unpack($response->content);
 
   assert($dmap->[0]->[0] eq 'dmap.loginresponse');
@@ -66,7 +66,7 @@ sub connect {
   }
 
   # See how many containers there are
-  $response = $self->do_get("databases");
+  $response = $self->_do_get("databases");
   $dmap = dmap_unpack($response->content);
   assert($dmap->[0]->[0] eq 'daap.serverdatabases');
   foreach my $tuple (@{$dmap->[0]->[1]}) {
@@ -83,7 +83,7 @@ sub connect {
 
   # Get album info
   my @albums;
-  $response = $self->do_get("databases/1/containers");
+  $response = $self->_do_get("databases/1/containers");
   $dmap = dmap_unpack($response->content);
 
   assert($dmap->[0]->[0] eq 'daap.databaseplaylists');
@@ -114,7 +114,7 @@ sub connect {
     my $albumid = $album->id;
     my @images;
 
-    $response = $self->do_get("databases/1/containers/$albumid/items", meta => 'dpap.aspectratio,dpap.imagefilesize,dpap.creationdate', type => 'photo');
+    $response = $self->_do_get("databases/1/containers/$albumid/items", meta => 'dpap.aspectratio,dpap.imagefilesize,dpap.creationdate', type => 'photo');
     $dmap = dmap_unpack($response->content);
 
     assert($dmap->[0]->[0] eq 'daap.playlistsongs');
@@ -140,10 +140,10 @@ sub connect {
 
 	my $imageid = $image->id;
 
-	my $thumbnail_url = $self->construct_uri('databases/1/items', meta => 'dpap.thumb', query => "('dmap.itemid:$imageid')");
+	my $thumbnail_url = $self->_construct_uri('databases/1/items', meta => 'dpap.thumb', query => "('dmap.itemid:$imageid')");
 	$image->thumbnail_url($thumbnail_url);
 
-	my $hires_url = $self->construct_uri('databases/1/items', meta => 'dpap.hires', query => "('dmap.itemid:$imageid')");
+	my $hires_url = $self->_construct_uri('databases/1/items', meta => 'dpap.hires', query => "('dmap.itemid:$imageid')");
 	$image->hires_url($hires_url);
 
 	push @images, $image;
@@ -156,12 +156,12 @@ sub connect {
   return @albums;
 }
 
-sub do_get {
+sub _do_get {
   my $self = shift;
   my ($path, @form) = @_;
 
   my $ua = $self->ua;
-  my $uri = $self->construct_uri($path, @form);
+  my $uri = $self->_construct_uri($path, @form);
 
   my $response = $ua->get($uri);
   die "Error when fetching $uri" unless $response->is_success;
@@ -171,7 +171,7 @@ sub do_get {
 
 # Using URI module for URI parsing & constructing is more hassle than simply
 # storing & passing URI components separately
-sub construct_uri {
+sub _construct_uri {
   my $self = shift;
   my ($path, @form) = @_;
   
@@ -230,6 +230,21 @@ hires versions of shared photos.
 
 It currently doesn't support password-protected shares.
 
+=head1 METHODS
+
+=head2 new
+
+The constructor:
+
+  my $client = Net::DPAP::Client->new;
+  $client->hostname($hostname);
+
+=head2 connect
+
+Connect to the hostname:
+
+  my @albums = $client->connect;
+
 =head1 SEE ALSO
 
 Net::DPAP::Client::Album, Net::DPAP::Client::Image.
@@ -240,7 +255,7 @@ Leon Brocard <acme@astray.com>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2004, Leon Brocard
+Copyright (C) 2004-6, Leon Brocard
 
 This module is free software; you can redistribute it or modify it under
 the same terms as Perl itself.

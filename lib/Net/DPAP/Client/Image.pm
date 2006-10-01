@@ -14,7 +14,7 @@ sub thumbnail {
   my $ua = $self->ua;
   my $url = $self->thumbnail_url;
 
-  return $self->decode($ua->get($url)->content);
+  return $self->_decode($ua->get($url)->content);
 }
 
 sub hires {
@@ -23,10 +23,10 @@ sub hires {
   my $ua = $self->ua;
   my $url = $self->hires_url;
 
-  return $self->decode($ua->get($url)->content);
+  return $self->_decode($ua->get($url)->content);
 }
 
-sub decode {
+sub _decode {
   my $self = shift;
   my $data  = shift;
   my $dmap = dmap_unpack($data);
@@ -109,7 +109,7 @@ Leon Brocard <acme@astray.com>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2004, Leon Brocard
+Copyright (C) 2004-6, Leon Brocard
 
 This module is free software; you can redistribute it or modify it under
 the same terms as Perl itself.
